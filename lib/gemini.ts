@@ -19,7 +19,7 @@ export const SYSTEM_BUSY_REPLY =
   "ขอโทษนะคะ ตอนนี้ระบบพี่ดาวมีคนใช้งานเยอะนิดหน่อย รบกวนลองถามใหม่อีกครั้งสักครู่นะคะ 🙏";
 
 const apiKey = process.env.GEMINI_API_KEY ?? "";
-const MODEL = process.env.GEMINI_MODEL ?? "gemini-3.5-flash";
+const MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 
 /** retry เฉพาะ error overload/5xx — backoff สั้น ๆ รวมแล้วไม่เกิน timeout ของ LINE */
 const MAX_RETRIES = 2;
