@@ -19,7 +19,13 @@ import type {
 } from "@line/bot-sdk";
 import { lineClient, validateSignature } from "@/lib/line";
 import { getFAQ } from "@/lib/sheet";
-import { askGemini, DEFAULT_REPLY } from "@/lib/gemini";
+import {
+  askGemini,
+  DEFAULT_REPLY,
+  SYSTEM_BUSY_REPLY,
+  isOverloadError,
+} from "@/lib/gemini";
+import type { GeminiResult } from "@/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -68,37 +74,40 @@ async function handleTextEvent(event: TextMessageEvent): Promise<void> {
   const { replyToken } = event;
   const userText = event.message.text;
 
+  let replyText: string;
+  let finishReason: string;
+  let result: GeminiResult | null = null;
+
   try {
     const faq = await getFAQ();
+    // timeout guard: ช้าเกิน 8 วิ → null → DEFAULT_REPLY
+    result = await withTimeout(askGemini(userText, faq), GEMINI_TIMEOUT_MS);
+    replyText = result?.reply ?? DEFAULT_REPLY;
+    finishReason = result?.finishReason ?? "TIMEOUT";
+  } catch (err) {
+    // 503/overloaded → busy, error อื่น (รวม retry หมด) → default
+    const overloaded = isOverloadError(err);
+    console.error("[line-webhook] askGemini error:", err);
+    replyText = overloaded ? SYSTEM_BUSY_REPLY : DEFAULT_REPLY;
+    finishReason = overloaded ? "OVERLOAD_503" : "ERROR";
+  }
 
-    // timeout guard: ช้าเกิน 8 วิ → null → fallback DEFAULT_REPLY
-    const result = await withTimeout(askGemini(userText, faq), GEMINI_TIMEOUT_MS);
-    const replyText = result?.reply ?? DEFAULT_REPLY;
+  console.log({
+    userMessage: userText,
+    finishReason,
+    thoughtsTokenCount: result?.thoughtsTokenCount,
+    candidatesTokenCount: result?.candidatesTokenCount,
+    replyLength: replyText.length,
+  });
 
-    console.log({
-      userMessage: userText,
-      finishReason: result?.finishReason ?? "TIMEOUT",
-      thoughtsTokenCount: result?.thoughtsTokenCount,
-      candidatesTokenCount: result?.candidatesTokenCount,
-      replyLength: replyText.length,
-    });
-
+  try {
     await lineClient.replyMessage({
       replyToken,
       messages: [{ type: "text", text: replyText }],
     });
-  } catch (err) {
-    // Gemini error / reply error — log แล้วพยายามตอบ default (ไม่ throw ต่อ)
-    console.error("[line-webhook] handleTextEvent error:", err);
-    try {
-      await lineClient.replyMessage({
-        replyToken,
-        messages: [{ type: "text", text: DEFAULT_REPLY }],
-      });
-    } catch (replyErr) {
-      // replyToken อาจหมดอายุ/ใช้ซ้ำ — log เป็น warning ไม่ critical
-      console.warn("[line-webhook] reply failed:", replyErr);
-    }
+  } catch (replyErr) {
+    // replyToken หมดอายุ/ใช้ซ้ำ — log warning ไม่ critical
+    console.warn("[line-webhook] reply failed:", replyErr);
   }
 }
 
