@@ -25,6 +25,7 @@ import {
   SYSTEM_BUSY_REPLY,
   isOverloadError,
 } from "@/lib/gemini";
+import { logQuestion } from "@/lib/log";
 import type { GeminiResult } from "@/types";
 
 export const runtime = "nodejs";
@@ -109,6 +110,14 @@ async function handleTextEvent(event: TextMessageEvent): Promise<void> {
     // replyToken หมดอายุ/ใช้ซ้ำ — log warning ไม่ critical
     console.warn("[line-webhook] reply failed:", replyErr);
   }
+
+  // เก็บคำถาม/คำตอบลง Google Sheet (ทำหลังตอบ user แล้ว, ไม่พังถ้าล้มเหลว)
+  await logQuestion({
+    question: userText,
+    reply: replyText,
+    finishReason,
+    answered: replyText !== DEFAULT_REPLY && replyText !== SYSTEM_BUSY_REPLY,
+  });
 }
 
 /** race promise กับ timeout — คืน null เมื่อช้าเกิน ms */
