@@ -8,6 +8,7 @@ import { buildResultsFlex } from '../flex/results';
 import { resetSession } from '../session';
 import { saveAssessment } from '../db';
 import { createFollowup } from '../followup';
+import { saveAssessmentSummary } from '../store';
 
 export async function showResults(
   client: MessagingApiClient,
@@ -36,6 +37,16 @@ export async function showResults(
     overallScore,
     recommendations: recommendations.map((r) => `${r.emoji} ${r.skillName}: ${r.text}`),
   }).catch(() => {}); // ไม่ block
+
+  // บันทึกสรุปผลลง KV สำหรับ Admin Dashboard (fire-and-forget)
+  saveAssessmentSummary({
+    studentIdHash,
+    assessmentAt: new Date().toISOString(),
+    hardScore,
+    softScore,
+    overallScore,
+    skillScores,
+  }).catch(() => {});
 
   // สร้าง follow-up record (fire-and-forget)
   createFollowup(lineUserId).catch(() => {});
