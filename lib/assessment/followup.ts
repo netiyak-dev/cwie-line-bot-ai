@@ -57,7 +57,7 @@ export async function getAllFollowups(): Promise<FollowupRecord[]> {
   let cursor = 0;
   do {
     const [nextCursor, keys] = await kv.scan(cursor, { match: 'followup:*', count: 100 });
-    cursor = nextCursor as number;
+    cursor = Number(nextCursor);
     if (keys.length > 0) {
       const values = await Promise.all(keys.map((k) => kv.get<FollowupRecord>(k)));
       records.push(...(values.filter((v): v is FollowupRecord => v !== null)));
