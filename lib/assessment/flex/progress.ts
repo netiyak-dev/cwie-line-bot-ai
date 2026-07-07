@@ -112,14 +112,42 @@ function buildAttemptRow(summary: AssessmentSummary, index: number, prev?: Asses
   };
 }
 
-function buildFollowupSection(followup: FollowupRecord): FlexComponent[] {
-  const items: string[] = [];
-  if (followup.sent2w)  items.push(`2 สัปดาห์: ${followup.sent2w ? '✅ ส่งแล้ว' : '⏳ รอส่ง'}`);
-  if (followup.sent1m)  items.push(`1 เดือน:    ${followup.sent1m ? '✅ ส่งแล้ว' : '⏳ รอส่ง'}`);
-  if (followup.sent3m)  items.push(`3 เดือน:    ${followup.sent3m ? '✅ ส่งแล้ว' : '⏳ รอส่ง'}`);
+function responseLabel(r: string | null | undefined): string {
+  if (r === 'done')     return '✅ ทำแล้ว';
+  if (r === 'not_done') return '⏳ ยังไม่ได้ทำ';
+  if (r === 'cant')     return '❌ ทำไม่ได้';
+  return '—';
+}
 
-  if (items.length === 0) {
-    items.push('⏳ รอการแจ้งเตือนครั้งแรก (2 สัปดาห์)');
+function buildFollowupSection(followup: FollowupRecord): FlexComponent[] {
+  const milestones: { label: string; sent: boolean; response: string | null | undefined }[] = [
+    { label: '2 สัปดาห์', sent: followup.sent2w, response: followup.response2w },
+    { label: '1 เดือน',   sent: followup.sent1m, response: followup.response1m },
+    { label: '3 เดือน',   sent: followup.sent3m, response: followup.response3m },
+  ];
+
+  const sentAny = milestones.some((m) => m.sent);
+
+  const rows: FlexComponent[] = milestones
+    .filter((m) => m.sent) // แสดงเฉพาะ milestone ที่ส่งแล้ว
+    .map((m): FlexComponent => ({
+      type: 'box',
+      layout: 'horizontal',
+      margin: 'xs',
+      contents: [
+        { type: 'text', text: m.label, size: 'xs', color: '#555555', flex: 4 },
+        { type: 'text', text: responseLabel(m.response), size: 'xs', color: '#333333', flex: 6, align: 'end' },
+      ],
+    }));
+
+  if (!sentAny) {
+    rows.push({
+      type: 'text',
+      text: '⏳ รอการแจ้งเตือนครั้งแรก (2 สัปดาห์)',
+      size: 'xs',
+      color: '#888888',
+      margin: 'xs',
+    } as FlexComponent);
   }
 
   return [
@@ -132,13 +160,39 @@ function buildFollowupSection(followup: FollowupRecord): FlexComponent[] {
       margin: 'md',
       color: '#003F88',
     } as FlexComponent,
-    ...items.map((item): FlexComponent => ({
+    ...rows,
+  ];
+}
+
+function buildRecommendationSection(recommendations: string[]): FlexComponent[] {
+  if (!recommendations || recommendations.length === 0) return [];
+  // แสดงสูงสุด 3 ข้อ (ป้องกัน Flex overflow)
+  const shown = recommendations.slice(0, 3);
+  return [
+    { type: 'separator', margin: 'md' } as FlexComponent,
+    {
       type: 'text',
-      text: item,
+      text: '💡 คำแนะนำล่าสุด',
+      weight: 'bold',
+      size: 'sm',
+      margin: 'md',
+      color: '#003F88',
+    } as FlexComponent,
+    ...shown.map((rec): FlexComponent => ({
+      type: 'text',
+      text: rec,
       size: 'xs',
       color: '#555555',
+      wrap: true,
       margin: 'xs',
     })),
+    ...(recommendations.length > 3 ? [{
+      type: 'text' as const,
+      text: `+${recommendations.length - 3} ข้อเพิ่มเติม`,
+      size: 'xs' as const,
+      color: '#888888',
+      margin: 'xs' as const,
+    } as FlexComponent] : []),
   ];
 }
 
@@ -161,6 +215,10 @@ export function buildProgressFlex(
   }
 
   const followupSection = followup?.optIn ? buildFollowupSection(followup) : [];
+
+  // แสดงคำแนะนำของ attempt ล่าสุด
+  const latestRecs = recent[recent.length - 1]?.recommendations ?? [];
+  const recommendationSection = buildRecommendationSection(latestRecs);
 
   // สรุป trend ถ้ามีมากกว่า 1 ครั้ง
   let trendText = '';
@@ -220,6 +278,7 @@ export function buildProgressFlex(
             margin: 'none' as const,
           }, { type: 'box' as const, layout: 'vertical' as const, height: '10px', contents: [] }] : []),
           ...rowsWithGap,
+          ...recommendationSection,
           ...followupSection,
         ],
       },

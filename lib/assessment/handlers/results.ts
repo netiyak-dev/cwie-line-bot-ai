@@ -37,7 +37,7 @@ export async function showResults(
     recommendations: recommendations.map((r) => `${r.emoji} ${r.skillName}: ${r.text}`),
   }).catch(() => {}); // ไม่ block
 
-  // บันทึกสรุปผลลง KV สำหรับ Admin Dashboard (fire-and-forget)
+  // บันทึกสรุปผลลง KV (รวม recommendations สำหรับแสดงใน Progress)
   saveAssessmentSummary({
     studentIdHash,
     assessmentAt: new Date().toISOString(),
@@ -45,6 +45,7 @@ export async function showResults(
     softScore,
     overallScore,
     skillScores,
+    recommendations: recommendations.map((r) => `${r.emoji} ${r.skillName}: ${r.text}`),
   }).catch(() => {});
 
   // หมายเหตุ: ไม่เก็บ LINE ID ที่นี่

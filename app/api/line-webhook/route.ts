@@ -54,15 +54,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const signature = req.headers.get("x-line-signature");
     const body = await req.text();
 
-    // DEBUG: ลบออกหลัง fix สำเร็จ
-    console.log("[debug] channelSecret length:", channelSecret.length);
-    console.log("[debug] signature present:", !!signature);
-    console.log("[debug] body length:", body.length);
     const sigValid = validateSignature(body, channelSecret, signature ?? "");
-    console.log("[debug] validateSignature result:", sigValid);
 
     if (!signature || !channelSecret || !sigValid) {
-      console.error("[debug] 401 reason — no signature:", !signature, "| no secret:", !channelSecret, "| sig invalid:", !sigValid);
       return new NextResponse("Invalid signature", { status: 401 });
     }
 
@@ -188,14 +182,24 @@ async function handlePostbackEvent(event: PostbackEvent, lineUserId: string): Pr
       break;
     }
 
-    case "followup_done":
+    case "followup_done": {
+      // บันทึก response ล่าสุด (fire-and-forget)
+      updateFollowup(lineUserId, {
+        lastResponse: "done",
+        lastResponseAt: new Date().toISOString(),
+      }).catch(() => {});
       await lineClient.replyMessage({
         replyToken,
         messages: [{ type: "text", text: "🌟 เก่งมากเลย! น้องทำตามได้แล้ว\n\nผลเป็นยังไงบ้าง? บอก AGSP ได้เลยนะ (พิมพ์สั้นๆ ก็ได้)" }],
       });
       break;
+    }
 
-    case "followup_not_done":
+    case "followup_not_done": {
+      updateFollowup(lineUserId, {
+        lastResponse: "not_done",
+        lastResponseAt: new Date().toISOString(),
+      }).catch(() => {});
       await lineClient.replyMessage({
         replyToken,
         messages: [
@@ -214,8 +218,13 @@ async function handlePostbackEvent(event: PostbackEvent, lineUserId: string): Pr
         ],
       });
       break;
+    }
 
-    case "followup_cant":
+    case "followup_cant": {
+      updateFollowup(lineUserId, {
+        lastResponse: "cant",
+        lastResponseAt: new Date().toISOString(),
+      }).catch(() => {});
       await lineClient.replyMessage({
         replyToken,
         messages: [
@@ -234,6 +243,7 @@ async function handlePostbackEvent(event: PostbackEvent, lineUserId: string): Pr
         ],
       });
       break;
+    }
 
     case "followup_reason": {
       const reasonMap: Record<string, string> = {

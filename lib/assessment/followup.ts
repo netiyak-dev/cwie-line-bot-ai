@@ -6,6 +6,8 @@
  */
 import { kv } from '@vercel/kv';
 
+export type FollowupResponse = 'done' | 'not_done' | 'cant' | null;
+
 export interface FollowupRecord {
   lineUserId: string;
   assessmentAt: string; // ISO
@@ -14,6 +16,12 @@ export interface FollowupRecord {
   sent1m: boolean;
   sent3m: boolean;
   lastSentAt: string | null;
+  // การตอบกลับของนักศึกษาแต่ละ milestone
+  response2w: FollowupResponse;
+  response1m: FollowupResponse;
+  response3m: FollowupResponse;
+  lastResponse: FollowupResponse;  // response ล่าสุด (ใช้แสดงใน Progress)
+  lastResponseAt: string | null;   // เวลาที่ตอบล่าสุด
 }
 
 const KEY = (userId: string) => `followup:${userId}`;
@@ -29,6 +37,11 @@ export async function createFollowup(lineUserId: string): Promise<void> {
     sent1m: false,
     sent3m: false,
     lastSentAt: null,
+    response2w: null,
+    response1m: null,
+    response3m: null,
+    lastResponse: null,
+    lastResponseAt: null,
   };
   await kv.set(KEY(lineUserId), record, { ex: TTL });
 }

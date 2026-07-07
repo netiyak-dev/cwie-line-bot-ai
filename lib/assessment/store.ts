@@ -16,6 +16,7 @@ export interface AssessmentSummary {
   softScore: number;
   overallScore: number;
   skillScores: Record<string, number>;
+  recommendations: string[]; // เช่น ["🟠 HS3: ฝึกค้น Google Scholar (PLO2.1)", ...]
 }
 
 const KEY = (hash: string) => `assessment:${hash}`;
