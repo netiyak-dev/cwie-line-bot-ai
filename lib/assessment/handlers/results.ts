@@ -7,6 +7,7 @@ import { calculateScores, buildRecommendations, getStrengths } from '../scoring'
 import { buildResultsFlex } from '../flex/results';
 import { resetSession } from '../session';
 import { saveAssessment } from '../db';
+import { createFollowup } from '../followup';
 
 export async function showResults(
   client: MessagingApiClient,
@@ -35,6 +36,9 @@ export async function showResults(
     overallScore,
     recommendations: recommendations.map((r) => `${r.emoji} ${r.skillName}: ${r.text}`),
   }).catch(() => {}); // ไม่ block
+
+  // สร้าง follow-up record (fire-and-forget)
+  createFollowup(lineUserId).catch(() => {});
 
   // Reset session
   await resetSession(lineUserId);

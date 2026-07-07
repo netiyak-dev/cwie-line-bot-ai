@@ -33,6 +33,7 @@ import { getSession, upsertSession, defaultSession } from "@/lib/assessment/sess
 import { sendPdpaCard, handleAccept, handleDecline } from "@/lib/assessment/handlers/pdpa";
 import { handleStudentId } from "@/lib/assessment/handlers/id";
 import { handleAnswer, resumeAssessment, sendQuestion } from "@/lib/assessment/handlers/assessment";
+import { optOutFollowup, updateFollowup } from "@/lib/assessment/followup";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -153,11 +154,75 @@ async function handlePostbackEvent(event: PostbackEvent, lineUserId: string): Pr
       break;
 
     case "followup_optin":
+      await updateFollowup(lineUserId, { optIn: true }).catch(() => {});
       await lineClient.replyMessage({
         replyToken,
-        messages: [{ type: "text", text: "🔔 AGSP จะแจ้งเตือนน้องใน 2 สัปดาห์\nพิมพ์ \"ยกเลิกการแจ้งเตือน\" เมื่อไรก็ได้นะ" }],
+        messages: [{ type: "text", text: "🔔 AGSP จะแจ้งเตือนน้องที่ 2 สัปดาห์ / 1 เดือน / 3 เดือนนะ\nพิมพ์ \"ยกเลิกการแจ้งเตือน\" เมื่อไรก็ได้" }],
       });
       break;
+
+    case "followup_done":
+      await lineClient.replyMessage({
+        replyToken,
+        messages: [{ type: "text", text: "🌟 เก่งมากเลย! น้องทำตามได้แล้ว\n\nผลเป็นยังไงบ้าง? บอก AGSP ได้เลยนะ (พิมพ์สั้นๆ ก็ได้)" }],
+      });
+      break;
+
+    case "followup_not_done":
+      await lineClient.replyMessage({
+        replyToken,
+        messages: [
+          {
+            type: "text",
+            text: "ไม่เป็นไรนะ 😊 ยังมีเวลา\n\nติดอะไรอยู่บ้าง?",
+            quickReply: {
+              items: [
+                { type: "action", action: { type: "postback", label: "⏰ ไม่มีเวลา", data: "action=followup_reason&r=no_time" } },
+                { type: "action", action: { type: "postback", label: "❓ ไม่รู้จะเริ่มยังไง", data: "action=followup_reason&r=no_idea" } },
+                { type: "action", action: { type: "postback", label: "📚 ทรัพยากรไม่พอ", data: "action=followup_reason&r=no_resource" } },
+                { type: "action", action: { type: "postback", label: "อื่นๆ", data: "action=followup_reason&r=other" } },
+              ],
+            },
+          },
+        ],
+      });
+      break;
+
+    case "followup_cant":
+      await lineClient.replyMessage({
+        replyToken,
+        messages: [
+          {
+            type: "text",
+            text: "เข้าใจนะ 😊 บอก AGSP ด้วยได้ไหมว่าติดอะไร?",
+            quickReply: {
+              items: [
+                { type: "action", action: { type: "postback", label: "⏰ ไม่มีเวลา", data: "action=followup_reason&r=no_time" } },
+                { type: "action", action: { type: "postback", label: "❓ ไม่รู้จะเริ่มยังไง", data: "action=followup_reason&r=no_idea" } },
+                { type: "action", action: { type: "postback", label: "📚 ทรัพยากรไม่พอ", data: "action=followup_reason&r=no_resource" } },
+                { type: "action", action: { type: "postback", label: "อื่นๆ", data: "action=followup_reason&r=other" } },
+              ],
+            },
+          },
+        ],
+      });
+      break;
+
+    case "followup_reason": {
+      const reasonMap: Record<string, string> = {
+        no_time: "ไม่มีเวลา",
+        no_idea: "ไม่รู้จะเริ่มยังไง",
+        no_resource: "ทรัพยากรไม่พอ",
+        other: "อื่นๆ",
+      };
+      const r = params.get("r") ?? "other";
+      const reasonLabel = reasonMap[r] ?? r;
+      await lineClient.replyMessage({
+        replyToken,
+        messages: [{ type: "text", text: `AGSP รับทราบแล้วนะ (${reasonLabel}) 📝\n\nอย่าลืมว่าน้องสามารถพิมพ์ "ประเมิน" เพื่อทำแบบประเมินใหม่ได้เมื่อพร้อม 🌾` }],
+      });
+      break;
+    }
 
     default:
       console.warn("[line-webhook] unknown postback:", action);
@@ -175,7 +240,8 @@ async function handleTextEvent(event: TextMessageEvent, lineUserId: string): Pro
   // Opt-out
   if (lower === "ยกเลิกการแจ้งเตือน" || lower === "unsubscribe") {
     await upsertSession({ ...session, lineUserId, state: "idle" });
-    await lineClient.replyMessage({ replyToken, messages: [{ type: "text", text: "AGSP ยกเลิกการแจ้งเตือนให้แล้ว 👍" }] });
+    await optOutFollowup(lineUserId).catch(() => {});
+    await lineClient.replyMessage({ replyToken, messages: [{ type: "text", text: "AGSP ยกเลิกการแจ้งเตือนให้แล้ว 👍\nน้องสามารถกลับมาทำแบบประเมินใหม่ได้เสมอนะ 🌾" }] });
     return;
   }
 
