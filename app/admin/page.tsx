@@ -2,6 +2,7 @@
  * /admin — Admin Dashboard (Server Component)
  * แสดง aggregate stats เท่านั้น — ห้ามแสดงข้อมูลรายบุคคล (privacy by design)
  */
+import type { ReactNode } from 'react';
 import { getAllAssessments } from '@/lib/assessment/store';
 import { getAllFollowups } from '@/lib/assessment/followup';
 import { SKILLS } from '@/lib/assessment/skills';
@@ -113,7 +114,7 @@ function StatCard({ label, value, unit, color }: { label: string; value: number;
   );
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div style={{ background: '#fff', borderRadius: 10, padding: '24px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', marginBottom: 24 }}>
       <h2 style={{ fontSize: 16, fontWeight: 600, color: PRIMARY, margin: '0 0 20px' }}>{title}</h2>
