@@ -2,11 +2,11 @@
 
 ## บริบทโปรเจกต์
 
-**AGSP** = LINE Bot ผู้ช่วยนักศึกษาหลักสูตรวิทยาศาสตร์การเกษตร มหาวิทยาลัยมหิดล  
+**AGSP** = LINE Bot ผู้ช่วยนักศึกษา **วิชาโครงงานวิจัยระดับปริญญาตรี** มหาวิทยาลัยมหิดล  
 มีสองฟีเจอร์หลักใน codebase เดียวกัน (Next.js บน Vercel):
 
 1. **FAQ Chatbot** — ตอบคำถาม KAAG474 Senior Project ผ่าน Gemini + Google Sheets
-2. **Skill Assessment** — ประเมิน Hard Skill / Soft Skill 23 ข้อ พร้อม recommendations ผูก PLO
+2. **Skill Assessment** — ประเมิน Hard Skill / Soft Skill 23 ข้อ ติดตามพัฒนาการนักศึกษารายวิชา พร้อม recommendations ผูก PLO
 
 ---
 

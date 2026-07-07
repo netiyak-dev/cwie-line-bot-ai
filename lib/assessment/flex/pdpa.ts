@@ -26,9 +26,10 @@ export function buildPdpaFlex(): FlexMessage {
           },
           {
             type: 'text',
-            text: 'ระบบประเมินทักษะ | มหาวิทยาลัยมหิดล',
+            text: 'วิชาโครงงานวิจัยระดับปริญญาตรี | มหาวิทยาลัยมหิดล',
             color: '#C9A227',
             size: 'sm',
+            wrap: true,
           },
         ],
       },
@@ -63,7 +64,7 @@ export function buildPdpaFlex(): FlexMessage {
                   { type: 'text', text: '📊', flex: 0, size: 'sm' },
                   {
                     type: 'text',
-                    text: 'ติดตามพัฒนาการทักษะของน้องรายบุคคล เพื่อให้คำแนะนำที่ตรงจุดขึ้นเรื่อยๆ',
+                    text: 'ติดตามพัฒนาการทักษะของน้องรายบุคคล ในวิชาโครงงานวิจัยระดับปริญญาตรี',
                     size: 'sm', wrap: true, flex: 10,
                   },
                 ],
@@ -75,7 +76,7 @@ export function buildPdpaFlex(): FlexMessage {
                   { type: 'text', text: '🎓', flex: 0, size: 'sm' },
                   {
                     type: 'text',
-                    text: 'วิเคราะห์ภาพรวมเพื่อพัฒนาหลักสูตรวิทยาศาสตร์การเกษตร',
+                    text: 'วิเคราะห์ภาพรวมเพื่อพัฒนาการเรียนการสอนรายวิชา',
                     size: 'sm', wrap: true, flex: 10,
                   },
                 ],
