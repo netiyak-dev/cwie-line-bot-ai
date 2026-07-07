@@ -1,0 +1,275 @@
+{
+  "title": "KAAG 474 Senior Project — Pre-Test Assessment",
+  "description": "แบบประเมิน Pre-Test เพื่อประเมินความเข้าใจและทักษะของนักศึกษาก่อนเรียนวิชา Senior Project",
+  "settings": {
+    "collectEmails": true,
+    "allowsMultipleResponses": false,
+    "confirmationMessage": "ขอบคุณที่ตอบแบบประเมิน! คณะลงทะเบียนรับทราบแล้ว"
+  },
+  "items": [
+    {
+      "type": "section",
+      "title": "ข้อมูลส่วนบุคคล",
+      "description": "กรุณากรอกข้อมูลของคุณ"
+    },
+    {
+      "type": "short_answer",
+      "title": "ชื่อ-สกุล",
+      "required": true
+    },
+    {
+      "type": "short_answer",
+      "title": "รหัสนักศึกษา",
+      "required": true
+    },
+    {
+      "type": "short_answer",
+      "title": "เบอร์โทรศัพท์",
+      "required": false
+    },
+    {
+      "type": "section",
+      "title": "SECTION A: ความเข้าใจเรื่องการทำ Senior Project",
+      "description": "เลือกคำตอบที่ถูกต้องที่สุด"
+    },
+    {
+      "type": "multiple_choice",
+      "title": "A1. Senior Project คืออะไร?",
+      "options": [
+        "ก. โครงงานเขียนรายงานเกี่ยวกับสิ่งที่ศึกษาจากหนังสือ",
+        "ข. โครงการวิจัยเล็กน้อยที่นักศึกษาออกแบบและดำเนินการด้วยตัวเอง",
+        "ค. การสรุปความรู้ที่เรียนมาตั้งแต่ชั้นที่ 1",
+        "ง. สิ่งที่ไม่สำคัญและจะหายไปหลังสำเร็จการศึกษา"
+      ],
+      "required": true
+    },
+    {
+      "type": "multiple_choice",
+      "title": "A2. ขั้นตอนหลักของการทำ Senior Project คือขั้นไหนบ้าง?",
+      "options": [
+        "ก. เขียนรายงาน → นำเสนอ → จบ",
+        "ข. ระบุปัญหา → ตั้งสมมติฐาน → ออกแบบการทดลอง → เก็บข้อมูล → วิเคราะห์ → เขียนรายงาน → นำเสนอ",
+        "ค. หาข้อมูล → ลอกรายงาน → ส่ง",
+        "ง. ไม่เป็นขั้นตอนที่แน่นอน ทำได้ตามต้องการ"
+      ],
+      "required": true
+    },
+    {
+      "type": "multiple_choice",
+      "title": "A3. CLO (Course Learning Outcomes) ของวิชา Senior Project คือ?",
+      "options": [
+        "ก. ได้เกรด A ในวิชา",
+        "ข. ผลการเรียนรู้ที่เน้นการระบุปัญหา การใช้วิธีการทางวิทยาศาสตร์ และการนำเสนอผลงาน",
+        "ค. จำนวนชั่วโมงที่ใช้ในการเรียน",
+        "ง. ไม่สำคัญ แล้วแต่อาจารย์"
+      ],
+      "required": true
+    },
+    {
+      "type": "multiple_choice",
+      "title": "A4. ข้อมูลวิจัยมีความสำคัญต่อ Senior Project อย่างไร?",
+      "options": [
+        "ก. ไม่สำคัญมากนัก สิ่งสำคัญคือการนำเสนอให้ดูดี",
+        "ข. ข้อมูลอย่างเป็นระบบและเชื่อถือได้เป็นรากฐานของการตั้งข้อสรุปที่มีความหมาย",
+        "ค. ข้อมูลควรมีจำนวนมากที่สุดเท่าที่จะได้",
+        "ง. ข้อมูลชนิดใดก็ได้ เพราะแค่มีข้อมูลก็พอ"
+      ],
+      "required": true
+    },
+    {
+      "type": "multiple_choice",
+      "title": "A5. ผู้ที่ให้คำแนะนำในการทำ Senior Project เรียกว่า?",
+      "options": [
+        "ก. เพื่อนร่วมชั้น",
+        "ข. ที่ปรึกษา (Advisor)",
+        "ค. ผู้บริหารห้องเรียน",
+        "ง. ไม่จำเป็นต้องมีผู้ให้คำแนะนำ"
+      ],
+      "required": true
+    },
+    {
+      "type": "multiple_choice",
+      "title": "A6. ความแตกต่างระหว่าง Literature Review กับ Experiment คืออะไร?",
+      "options": [
+        "ก. ไม่แตกต่างกัน ทั้งสองเป็นสิ่งเดียวกัน",
+        "ข. Literature Review คือการศึกษาจากงานวิจัยที่มีอยู่ ส่วน Experiment คือการทำการทดลองหรือเก็บข้อมูลด้วยตัวเอง",
+        "ค. Literature Review ทำหลังจากสำเร็จการศึกษา",
+        "ง. ไม่มีความสำคัญในการทำ Senior Project"
+      ],
+      "required": true
+    },
+    {
+      "type": "section",
+      "title": "SECTION B: ทักษะเชิงเทคนิค (Hard Skills)",
+      "description": "ให้ระดับความมั่นใจในแต่ละด้าน (1 = ไม่มีความเข้าใจเลย, 5 = มีความเข้าใจมากที่สุด)"
+    },
+    {
+      "type": "linear_scale",
+      "title": "B1. การออกแบบการทดลอง (Experimental Design)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "B2. การใช้เครื่องมือวิทยาศาสตร์ (Laboratory Equipment)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "B3. การวิเคราะห์ข้อมูลทางสถิติ (Statistical Analysis)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "B4. การตีความผลลัพธ์จากข้อมูล (Data Interpretation)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "B5. การเขียนรายงานวิจัยเป็นภาษาอังกฤษ (English Scientific Writing)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "B6. การใช้ Microsoft Excel/Google Sheets สำหรับวิเคราะห์ข้อมูล",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "B7. การสร้างตารางและกราฟให้มีความชัดเจน (Visualization)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "B8. การอ้างอิงต้นทาง (Citation & Referencing)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "section",
+      "title": "SECTION C: ทักษะทั่วไป (Soft Skills)",
+      "description": "ให้ระดับความมั่นใจในแต่ละด้าน (1 = ไม่มีความเข้าใจเลย, 5 = มีความเข้าใจมากที่สุด)"
+    },
+    {
+      "type": "linear_scale",
+      "title": "C1. การสื่อสารอย่างมีประสิทธิภาพ (Effective Communication)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "C2. การแก้ปัญหาอย่างสร้างสรรค์ (Problem-Solving)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "C3. การทำงานเป็นทีมและบทบาทในกลุ่ม (Teamwork & Collaboration)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "C4. การจัดการเวลาและสไตล์การเรียน (Time Management)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "C5. ความคิดริเริ่มและความอยากรู้อยากเห็น (Initiative & Curiosity)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "linear_scale",
+      "title": "C6. ความหนักแน่นและการทำงานจนเสร็จสิ้น (Perseverance & Completion)",
+      "scale_min": 1,
+      "scale_max": 5,
+      "required": true
+    },
+    {
+      "type": "section",
+      "title": "SECTION D: ความรู้เรื่องเครื่องมือ AI (AI Tools Awareness)"
+    },
+    {
+      "type": "multiple_choice",
+      "title": "D1. เคยใช้ ChatGPT หรือไม่?",
+      "options": [
+        "ก. ไม่เคยใช้เลย",
+        "ข. ใช้น้อย",
+        "ค. ใช้บ้าง",
+        "ง. ใช้บ่อยมาก"
+      ],
+      "required": true
+    },
+    {
+      "type": "multiple_choice",
+      "title": "D2. เคยใช้ Claude (Anthropic) หรือไม่?",
+      "options": [
+        "ก. ไม่เคยใช้เลย",
+        "ข. ใช้น้อย",
+        "ค. ใช้บ้าง",
+        "ง. ใช้บ่อยมาก"
+      ],
+      "required": true
+    },
+    {
+      "type": "multiple_choice",
+      "title": "D3. เคยใช้ Google Consensus สำหรับค้นหาบทความวิจัย หรือไม่?",
+      "options": [
+        "ก. ไม่เคยใช้เลย",
+        "ข. ใช้น้อย",
+        "ค. ใช้บ้าง",
+        "ง. ใช้บ่อยมาก"
+      ],
+      "required": true
+    },
+    {
+      "type": "multiple_choice",
+      "title": "D4. เคยใช้เครื่องมือ AI อื่นๆ (เช่น Perplexity, Copilot) หรือไม่?",
+      "options": [
+        "ก. ไม่เคยใช้เลย",
+        "ข. ใช้น้อย",
+        "ค. ใช้บ้าง",
+        "ง. ใช้บ่อยมาก"
+      ],
+      "required": true
+    },
+    {
+      "type": "multiple_choice",
+      "title": "D5. คิดว่า AI tools มีประโยชน์ต่อการทำ Senior Project อย่างไร?",
+      "options": [
+        "ก. ไม่มีประโยชน์เลย",
+        "ข. ช่วยหาข้อมูลและ literature review",
+        "ค. ช่วยในการเขียนร่างและจัดโครงสร้างรายงาน",
+        "ง. ก, ข, และ ค ทั้งหมด"
+      ],
+      "required": true
+    },
+    {
+      "type": "paragraph",
+      "title": "ความคิดเห็นเพิ่มเติม",
+      "description": "มีข้อแนะนำหรือความคิดเห็นเพิ่มเติมอื่นๆ หรือไม่?",
+      "required": false
+    }
+  ]
+}

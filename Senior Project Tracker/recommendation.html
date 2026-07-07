@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ผลการแนะนำ — Senior Project Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#A8D8C9; --secondary:#FFD9B3; --alert:#FFB3A7; --success:#B8E0D2;
+    --bg:#FAFAF8; --text:#3A3A3A; --text-soft:#7A7A75; --card-radius:18px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Thai','Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+  .app{max-width:480px;margin:0 auto;padding:20px 16px 50px;}
+
+  .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .lang-toggle{border:none;background:#fff;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.05);}
+
+  .intro h1{font-size:19px;margin:14px 0 6px;font-weight:700;}
+  .intro p{font-size:13px;color:var(--text-soft);line-height:1.6;margin:0 0 20px;}
+
+  .rank-card{
+    background:#fff;border-radius:var(--card-radius);padding:18px 16px;margin-bottom:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);position:relative;
+  }
+  .rank-card.top{background:linear-gradient(135deg,var(--primary),#CDEDE2);}
+  .rank-badge{
+    display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;
+    background:#fff;color:#3f8f76;margin-bottom:10px;
+  }
+  .rank-card.top .rank-badge{background:#fff;color:#1f6b54;}
+  .topic-title{font-size:16px;font-weight:700;margin:0 0 4px;}
+  .advisor-name{font-size:13px;color:var(--text-soft);margin:0 0 12px;}
+  .reason{font-size:13px;line-height:1.6;margin:0 0 14px;color:#4a4a45;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+  .tag{font-size:11px;background:#F4F4F1;color:var(--text-soft);padding:4px 10px;border-radius:12px;}
+  .contact-btn{
+    display:inline-block;background:#3f8f76;color:#fff;border:none;border-radius:12px;
+    padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;
+  }
+
+  .retake{
+    display:block;text-align:center;margin-top:20px;font-size:13px;color:var(--text-soft);
+    text-decoration:underline;cursor:pointer;background:none;border:none;width:100%;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div></div>
+    <button class="lang-toggle" id="langToggle">EN</button>
+  </div>
+
+  <div class="intro">
+    <h1 data-th="ผลการแนะนำสำหรับคุณ" data-en="Your recommendations">ผลการแนะนำสำหรับคุณ</h1>
+    <p data-th="จากคำตอบของคุณ นี่คือหัวข้องานและอาจารย์ที่ปรึกษาที่เหมาะกับคุณที่สุด 3 อันดับ"
+       data-en="Based on your answers, here are the top 3 topics and advisors that best fit you.">
+       จากคำตอบของคุณ นี่คือหัวข้องานและอาจารย์ที่ปรึกษาที่เหมาะกับคุณที่สุด 3 อันดับ</p>
+  </div>
+
+  <div id="resultsContainer">
+    <!-- เติมด้วย JS จากผลลัพธ์ AI — ตัวอย่าง mock ด้านล่างไว้ดูหน้าตาก่อน -->
+  </div>
+
+  <button class="retake" id="retakeBtn" data-th="ทำแบบประเมินใหม่อีกครั้ง" data-en="Retake the assessment">ทำแบบประเมินใหม่อีกครั้ง</button>
+</div>
+
+<script>
+  let currentLang = 'th';
+  document.getElementById('langToggle').addEventListener('click', () => {
+    currentLang = currentLang === 'th' ? 'en' : 'th';
+    document.getElementById('langToggle').textContent = currentLang === 'th' ? 'EN' : 'TH';
+    renderResults();
+  });
+  document.getElementById('retakeBtn').addEventListener('click', () => {
+    window.location.href = 'assessment.html';
+  });
+
+  // TODO: แทนที่ mockResults นี้ด้วยผลจริงจาก Apps Script
+  // เรียก GET ?action=getRecommendation&line_user_id=xxxx
+  // backend จะเรียก AI (ดู Code.gs > getRecommendation_) แล้วคืน array แบบนี้กลับมา
+  const mockResults = [
+    {
+      rank: 1,
+      topic_th: 'การขยายพันธุ์กล้วยไม้ป่าด้วยเทคนิคเพาะเลี้ยงเนื้อเยื่อ',
+      topic_en: 'Wild Orchid Propagation via Tissue Culture',
+      advisor_th: 'อาจารย์ ดร. สมหญิง ใจดี',
+      advisor_en: 'Dr. Somying Jaidee',
+      reason_th: 'ตรงกับความสนใจด้านเพาะเลี้ยงเนื้อเยื่อที่คุณเลือก และพื้นฐานทักษะ Lab ของคุณอยู่ในระดับดี เหมาะกับงานที่ต้องลงมือปฏิบัติเยอะ',
+      reason_en: 'Matches your interest in tissue culture, and your strong lab skills fit this hands-on project well.',
+      tags: ['เพาะเลี้ยงเนื้อเยื่อ', 'Lab-intensive']
+    },
+    {
+      rank: 2,
+      topic_th: 'ระบบติดตามการเจริญเติบโตของพืชด้วยข้อมูลเซนเซอร์',
+      topic_en: 'Plant Growth Monitoring with Sensor Data',
+      advisor_th: 'อาจารย์ ดร. วิชัย เทคโนกิจ',
+      advisor_en: 'Dr. Wichai Technokit',
+      reason_th: 'เหมาะกับคนที่สนใจทั้งด้านพืชและซอฟต์แวร์ และมีเวลาทำงานต่อสัปดาห์ที่เพียงพอสำหรับงานที่ต้องเก็บข้อมูลต่อเนื่อง',
+      reason_en: 'Good fit if you enjoy both plant science and software, with enough weekly hours for continuous data collection.',
+      tags: ['ซอฟต์แวร์/ข้อมูล', 'พืช']
+    },
+    {
+      rank: 3,
+      topic_th: 'การควบคุมคุณภาพอาหารแปรรูปจากสมุนไพรท้องถิ่น',
+      topic_en: 'Quality Control of Processed Local Herbal Food',
+      advisor_th: 'อาจารย์ ดร. มาลี อาหารดี',
+      advisor_en: 'Dr. Malee Ahandee',
+      reason_th: 'หากสนใจด้านวิทยาศาสตร์การอาหารเพิ่มเติม หัวข้อนี้เปิดโอกาสให้ผสมความรู้ด้านพืชกับงานวิเคราะห์คุณภาพ',
+      reason_en: 'If you want to explore food science further, this topic blends plant knowledge with quality analysis work.',
+      tags: ['วิทยาศาสตร์การอาหาร']
+    }
+  ];
+
+  function renderResults() {
+    const container = document.getElementById('resultsContainer');
+    container.innerHTML = mockResults.map(r => `
+      <div class="rank-card ${r.rank === 1 ? 'top' : ''}">
+        <span class="rank-badge">${currentLang === 'th' ? 'อันดับ' : 'Rank'} ${r.rank}</span>
+        <h2 class="topic-title">${currentLang === 'th' ? r.topic_th : r.topic_en}</h2>
+        <p class="advisor-name">👤 ${currentLang === 'th' ? r.advisor_th : r.advisor_en}</p>
+        <p class="reason">${currentLang === 'th' ? r.reason_th : r.reason_en}</p>
+        <div class="tags">${r.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+        <a class="contact-btn" href="#" data-advisor="${r.advisor_th}">${currentLang === 'th' ? 'ติดต่ออาจารย์' : 'Contact advisor'}</a>
+      </div>
+    `).join('');
+
+    // ผูก event ปุ่มติดต่ออาจารย์ (mock — ของจริงเปิด LINE chat ของอาจารย์)
+    container.querySelectorAll('.contact-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert((currentLang === 'th' ? 'เปิดแชท LINE กับ ' : 'Opening LINE chat with ') + btn.dataset.advisor);
+        // TODO: เปลี่ยนเป็น liff.openWindow({url: advisorLineLink}) ของจริง
+      });
+    });
+  }
+
+  renderResults();
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "agsp-skill-assessment-bot",
+  "version": "1.0.0",
+  "description": "AGSP LINE Bot - Skill Assessment & Recommendation for Agricultural Science, Mahidol University",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "@line/bot-sdk": "^9.3.0",
+    "better-sqlite3": "^9.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

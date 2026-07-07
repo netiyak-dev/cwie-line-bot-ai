@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAAG 474 Senior Project — Pre-Test Assessment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .form-content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-header {
+            background: #f5f5f5;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+        
+        .section-header h2 {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .section-header p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .question-group {
+            margin-bottom: 30px;
+        }
+        
+        .question-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .required {
+            color: #d32f2f;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .radio-option:hover, .checkbox-option:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .radio-option input[type="radio"],
+        .checkbox-option input[type="checkbox"] {
+            margin-right: 12px;
+            margin-top: 3px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        .option-label {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .scale-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: space-between;
+        }
+        
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .scale-options {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        
+        .scale-options input[type="radio"] {
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            resize: vertical;
+        }
+        
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        textarea {
+            min-height: 100px;
+        }
+        
+        .form-footer {
+            background: #f5f5f5;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #1976D2;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>KAAG 474 Senior Project</h1>
+            <p>Pre-Test Assessment (แบบประเมิน Pre-Test)</p>
+        </div>
+        
+        <!-- Form Content -->
+        <div class="form-content">
+            <div class="info-box">
+                <strong>ℹ️ สำคัญ:</strong> โปรดตอบแบบประเมินทั้งหมดอย่างตรงไปตรงมา ไม่มีคำตอบที่ถูกหรือผิด ใช้เวลาประมาณ 15-20 นาทีในการตอบแบบประเมิน
+            </div>
+            
+            <form id="preTestForm">
+                <!-- Personal Information -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>ข้อมูลส่วนบุคคล</h2>
+                        <p>กรุณากรอกข้อมูลของคุณ</p>
+                    </div>
+                    
+                    <div class="question-group">
+                        <label class="question-title">ชื่อ-สกุล <span class="required">*</span></label>
+                        <input type="text" name="fullname" required>
+                    </div>
+                    
+                    <div class="question-group">
+                        <label class="question-title">รหัสนักศึกษา <span class="required">*</span></label>
+                        <input type="text" name="studentid" required>
+                    </div>
+                    
+                    <div class="question-group">
+                        <label class="question-title">เบอร์โทรศัพท์</label>
+                        <input type="text" name="phone">
+                    </div>
+                </div>
+                
+                <!-- SECTION A -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>SECTION A: ความเข้าใจเรื่องการทำ Senior Project</h2>
+                        <p>เลือกคำตอบที่ถูกต้องที่สุด</p>
+                    </div>
+                    
+                    <div class="question-group">
+                        <label class="question-title">A1. Senior Project คืออะไร? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="A1" value="ก" required>
+                                <span class="option-label">ก. โครงงานเขียนรายงานเกี่ยวกับสิ่งที่ศึกษาจากหนังสือ</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="A1" value="ข">
+                                <span class="option-label">ข. โครงการวิจัยเล็กน้อยที่นักศึกษาออกแบบและดำเนินการด้วยตัวเอง</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="A1" value="ค">
+                                <span class="option-label">ค. การสรุปความรู้ที่เรียนมาตั้งแต่ชั้นที่ 1</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="A1" value="ง">
+                                <span class="option-label">ง. สิ่งที่ไม่สำคัญและจะหายไปหลังสำเร็จการศึกษา</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="question-group">
+                        <label class="question-title">A2. ขั้นตอนหลักของการทำ Senior Project คือขั้นไหนบ้าง? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="A2" value="ก" required>
+                                <span class="option-label">ก. เขียนรายงาน → นำเสนอ → จบ</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="A2" value="ข">
+                                <span class="option-label">ข. ระบุปัญหา → ตั้งสมมติฐาน → ออกแบบการทดลอง → เก็บข้อมูล → วิเคราะห์ → เขียนรายงาน → นำเสนอ</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="A2" value="ค">
+                                <span class="option-label">ค. หาข้อมูล → ลอกรายงาน → ส่ง</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="A2" value="ง">
+                                <span class="option-label">ง. ไม่เป็นขั้นตอนที่แน่นอน ทำได้ตามต้องการ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- More questions for Section A would go here -->
+                    <p style="text-align: center; color: #999; font-size: 13px; margin-top: 20px;">
+                        [โปรแกรมนี้เป็นตัวอย่างสำหรับ 2 คำถาม — Google Form เต็มรูปแบบมี 30+ คำถาม]
+                    </p>
+                </div>
+                
+                <!-- SECTION B -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>SECTION B: ทักษะเชิงเทคนิค (Hard Skills)</h2>
+                        <p>ให้ระดับความมั่นใจในแต่ละด้าน (1 = ไม่เข้าใจเลย, 5 = เข้าใจมากที่สุด)</p>
+                    </div>
+                    
+                    <div class="question-group">
+                        <label class="question-title">B1. การออกแบบการทดลอง (Experimental Design) <span class="required">*</span></label>
+                        <div class="scale-options">
+                            <label><input type="radio" name="B1" value="1" required> 1</label>
+                            <label><input type="radio" name="B1" value="2"> 2</label>
+                            <label><input type="radio" name="B1" value="3"> 3</label>
+                            <label><input type="radio" name="B1" value="4"> 4</label>
+                            <label><input type="radio" name="B1" value="5"> 5</label>
+                        </div>
+                    </div>
+
+                    <p style="text-align: center; color: #999; font-size: 13px; margin-top: 20px;">
+                        [โปรแกรมนี้เป็นตัวอย่างสำหรับ 1 คำถาม — Google Form เต็มรูปแบบมี 8 hard skills questions]
+                    </p>
+                </div>
+                
+                <!-- SECTION C -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>SECTION C: ทักษะทั่วไป (Soft Skills)</h2>
+                        <p>ให้ระดับความมั่นใจในแต่ละด้าน (1 = ไม่เข้าใจเลย, 5 = เข้าใจมากที่สุด)</p>
+                    </div>
+                    
+                    <div class="question-group">
+                        <label class="question-title">C1. การสื่อสารอย่างมีประสิทธิภาพ (Effective Communication) <span class="required">*</span></label>
+                        <div class="scale-options">
+                            <label><input type="radio" name="C1" value="1" required> 1</label>
+                            <label><input type="radio" name="C1" value="2"> 2</label>
+                            <label><input type="radio" name="C1" value="3"> 3</label>
+                            <label><input type="radio" name="C1" value="4"> 4</label>
+                            <label><input type="radio" name="C1" value="5"> 5</label>
+                        </div>
+                    </div>
+
+                    <p style="text-align: center; color: #999; font-size: 13px; margin-top: 20px;">
+                        [โปรแกรมนี้เป็นตัวอย่างสำหรับ 1 คำถาม — Google Form เต็มรูปแบบมี 6 soft skills questions]
+                    </p>
+                </div>
+                
+                <!-- SECTION D -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>SECTION D: ความรู้เรื่องเครื่องมือ AI</h2>
+                        <p>AI Tools Awareness</p>
+                    </div>
+                    
+                    <div class="question-group">
+                        <label class="question-title">D1. เคยใช้ ChatGPT หรือไม่? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="D1" value="ก" required>
+                                <span class="option-label">ก. ไม่เคยใช้เลย</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="D1" value="ข">
+                                <span class="option-label">ข. ใช้น้อย</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="D1" value="ค">
+                                <span class="option-label">ค. ใช้บ้าง</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="D1" value="ง">
+                                <span class="option-label">ง. ใช้บ่อยมาก</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <p style="text-align: center; color: #999; font-size: 13px; margin-top: 20px;">
+                        [โปรแกรมนี้เป็นตัวอย่างสำหรับ 1 คำถาม — Google Form เต็มรูปแบบมี 5 AI tools questions]
+                    </p>
+                </div>
+                
+                <!-- Comments -->
+                <div class="section">
+                    <div class="question-group">
+                        <label class="question-title">ความคิดเห็นเพิ่มเติม</label>
+                        <p style="font-size: 13px; color: #666; margin-bottom: 10px;">มีข้อแนะนำหรือความคิดเห็นเพิ่มเติมอื่นๆ หรือไม่?</p>
+                        <textarea name="comments"></textarea>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Footer -->
+            <div class="form-footer">
+                <p style="font-size: 13px; color: #666; margin-bottom: 20px;">
+                    <strong>⚠️ หมายเหตุ:</strong> นี่คือตัวอย่าง HTML ของแบบ Pre-Test<br>
+                    เพื่อประเมินครบถ้วน โปรดใช้ Google Form เต็มรูปแบบ
+                </p>
+                <button type="submit" form="preTestForm" class="submit-btn">ส่งแบบประเมิน (Submit)</button>
+                <p style="font-size: 12px; color: #999; margin-top: 15px;">
+                    Google Form ID: <code style="background: #f5f5f5; padding: 2px 6px;">กรุณาสร้างจาก Google Forms</code>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('preTestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('✅ แบบประเมินได้ถูกส่งเรียบร้อยแล้ว!\n\nในการใช้งานจริง ให้ใช้ Google Form เต็มรูปแบบ (30+ คำถาม)');
+        });
+    </script>
+</body>
+</html>

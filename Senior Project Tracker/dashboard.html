@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior Project Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#A8D8C9;
+    --secondary:#FFD9B3;
+    --alert:#FFB3A7;
+    --success:#B8E0D2;
+    --bg:#FAFAF8;
+    --text:#3A3A3A;
+    --text-soft:#7A7A75;
+    --card-radius:18px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans Thai','Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{max-width:480px;margin:0 auto;padding:20px 16px 80px;}
+
+  /* Header */
+  .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+  .greeting h1{font-size:20px;margin:0 0 2px;font-weight:700;}
+  .greeting p{margin:0;font-size:13px;color:var(--text-soft);}
+  .lang-toggle{
+    border:none;background:#fff;border-radius:20px;padding:6px 14px;
+    font-size:12px;font-weight:600;color:var(--text);cursor:pointer;
+    box-shadow:0 2px 6px rgba(0,0,0,0.05);
+  }
+
+  /* Hero next-task card */
+  .next-task{
+    background:linear-gradient(135deg,var(--secondary),#FFE8CC);
+    border-radius:var(--card-radius);
+    padding:20px;
+    margin-bottom:18px;
+    position:relative;
+    overflow:hidden;
+  }
+  .next-task .eyebrow{font-size:12px;font-weight:700;letter-spacing:.04em;color:#8a5a2b;text-transform:uppercase;}
+  .next-task h2{margin:6px 0 4px;font-size:19px;font-weight:700;}
+  .next-task .due{font-size:13px;color:#6b4a24;margin-bottom:14px;}
+  .next-task .countdown{
+    display:inline-block;background:#fff;border-radius:12px;padding:6px 12px;
+    font-size:13px;font-weight:700;color:#a85a2b;
+  }
+
+  /* Section title */
+  .section-title{font-size:14px;font-weight:700;margin:22px 0 10px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.03em;}
+
+  /* Task list */
+  .task-card{
+    background:#fff;border-radius:var(--card-radius);padding:14px 16px;margin-bottom:10px;
+    display:flex;justify-content:space-between;align-items:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  }
+  .task-info h3{margin:0 0 4px;font-size:15px;font-weight:600;}
+  .task-info .meta{font-size:12px;color:var(--text-soft);}
+  .status-pill{
+    font-size:11px;font-weight:700;padding:5px 10px;border-radius:20px;white-space:nowrap;
+  }
+  .status-not_started{background:#EFEFEC;color:#8a8a85;}
+  .status-upcoming{background:var(--secondary);color:#8a5a2b;}
+  .status-submitted{background:var(--success);color:#2f6b56;}
+  .status-late{background:var(--alert);color:#9c3f33;}
+
+  /* Bottom nav */
+  .bottom-nav{
+    position:fixed;bottom:0;left:0;right:0;
+    background:#fff;display:flex;justify-content:space-around;
+    padding:10px 0 14px;box-shadow:0 -2px 10px rgba(0,0,0,0.05);
+  }
+  .nav-item{
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+    font-size:11px;color:var(--text-soft);cursor:pointer;background:none;border:none;
+  }
+  .nav-item.active{color:#3f8f76;font-weight:700;}
+  .nav-icon{width:22px;height:22px;border-radius:8px;background:var(--primary);opacity:.35;}
+  .nav-item.active .nav-icon{opacity:1;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="greeting">
+      <h1 data-th="สวัสดี, น้องปาล์ม 👋" data-en="Hi, Palm 👋">สวัสดี, น้องปาล์ม 👋</h1>
+      <p data-th="วิชา Senior Project — กลุ่ม A" data-en="Senior Project — Group A">วิชา Senior Project — กลุ่ม A</p>
+    </div>
+    <button class="lang-toggle" id="langToggle">EN</button>
+  </div>
+
+  <!-- Hero: next task -->
+  <div class="next-task">
+    <div class="eyebrow" data-th="งานต่อไป" data-en="Up next">งานต่อไป</div>
+    <h2 id="nextTaskTitle">บทที่ 3: วิธีการวิจัย</h2>
+    <div class="due" data-th="กำหนดส่ง 28 มิ.ย. 2569" data-en="Due Jun 28, 2026">กำหนดส่ง 28 มิ.ย. 2569</div>
+    <span class="countdown" data-th="⏳ เหลืออีก 2 วันทำการ" data-en="⏳ 2 working days left">⏳ เหลืออีก 2 วันทำการ</span>
+  </div>
+
+  <div class="section-title" data-th="งานทั้งหมด" data-en="All assignments">งานทั้งหมด</div>
+
+  <div class="task-card">
+    <div class="task-info">
+      <h3>บทที่ 1: บทนำ</h3>
+      <div class="meta" data-th="ส่งแล้ว · 10 มิ.ย. 2569" data-en="Submitted · Jun 10, 2026">ส่งแล้ว · 10 มิ.ย. 2569</div>
+    </div>
+    <span class="status-pill status-submitted" data-th="ส่งแล้ว" data-en="Submitted">ส่งแล้ว</span>
+  </div>
+
+  <div class="task-card">
+    <div class="task-info">
+      <h3>บทที่ 2: ทบทวนวรรณกรรม</h3>
+      <div class="meta" data-th="ส่งแล้ว · 20 มิ.ย. 2569" data-en="Submitted · Jun 20, 2026">ส่งแล้ว · 20 มิ.ย. 2569</div>
+    </div>
+    <span class="status-pill status-submitted" data-th="ส่งแล้ว" data-en="Submitted">ส่งแล้ว</span>
+  </div>
+
+  <div class="task-card">
+    <div class="task-info">
+      <h3>บทที่ 3: วิธีการวิจัย</h3>
+      <div class="meta" data-th="กำหนดส่ง 28 มิ.ย. 2569" data-en="Due Jun 28, 2026">กำหนดส่ง 28 มิ.ย. 2569</div>
+    </div>
+    <span class="status-pill status-upcoming" data-th="ใกล้ครบกำหนด" data-en="Upcoming">ใกล้ครบกำหนด</span>
+  </div>
+
+  <div class="task-card">
+    <div class="task-info">
+      <h3>บทที่ 4: ผลการวิจัย</h3>
+      <div class="meta" data-th="กำหนดส่ง 15 ก.ค. 2569" data-en="Due Jul 15, 2026">กำหนดส่ง 15 ก.ค. 2569</div>
+    </div>
+    <span class="status-pill status-not_started" data-th="ยังไม่เริ่ม" data-en="Not started">ยังไม่เริ่ม</span>
+  </div>
+
+</div>
+
+<div class="bottom-nav">
+  <button class="nav-item active">
+    <div class="nav-icon"></div>
+    <span data-th="หน้าหลัก" data-en="Home">หน้าหลัก</span>
+  </button>
+  <button class="nav-item">
+    <div class="nav-icon"></div>
+    <span data-th="กำหนดการ" data-en="Schedule">กำหนดการ</span>
+  </button>
+  <button class="nav-item">
+    <div class="nav-icon"></div>
+    <span data-th="แชทบอท" data-en="Chatbot">แชทบอท</span>
+  </button>
+</div>
+
+<script>
+  // Simple bilingual toggle (ไทย <-> English) — เก็บ preference ไว้ใน memory ระหว่าง session
+  let currentLang = 'th';
+  const toggleBtn = document.getElementById('langToggle');
+  toggleBtn.addEventListener('click', () => {
+    currentLang = currentLang === 'th' ? 'en' : 'th';
+    toggleBtn.textContent = currentLang === 'th' ? 'EN' : 'TH';
+    document.querySelectorAll('[data-th]').forEach(el => {
+      el.textContent = el.getAttribute('data-' + currentLang);
+    });
+  });
+
+  // TODO (Apps Script integration):
+  // 1. เรียก LIFF SDK เพื่อดึง line_user_id แล้วส่งไป backend (Apps Script Web App URL)
+  // 2. backend คืนค่า assignments + submissions ของ student คนนี้มาแทนข้อมูล mock ด้านบน
+  // ดูตัวอย่าง endpoint ที่ apps-script-backend/Code.gs
+</script>
+</body>
+</html>

@@ -7,7 +7,6 @@ import { calculateScores, buildRecommendations, getStrengths } from '../scoring'
 import { buildResultsFlex } from '../flex/results';
 import { resetSession } from '../session';
 import { saveAssessment } from '../db';
-import { createFollowup } from '../followup';
 import { saveAssessmentSummary } from '../store';
 
 export async function showResults(
@@ -48,8 +47,9 @@ export async function showResults(
     skillScores,
   }).catch(() => {});
 
-  // สร้าง follow-up record (fire-and-forget)
-  createFollowup(lineUserId).catch(() => {});
+  // หมายเหตุ: ไม่เก็บ LINE ID ที่นี่
+  // createFollowup จะถูกเรียกเฉพาะเมื่อน้องกด "รับการแจ้งเตือน" (followup_optin) เท่านั้น
+  // เพื่อ comply กับ PDPA — ห้ามเก็บข้อมูลส่วนตัวโดยไม่ได้รับความยินยอมชัดแจ้ง
 
   // Reset session
   await resetSession(lineUserId);

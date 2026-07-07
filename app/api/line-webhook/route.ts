@@ -34,6 +34,8 @@ import { sendPdpaCard, handleAccept, handleDecline } from "@/lib/assessment/hand
 import { handleStudentId } from "@/lib/assessment/handlers/id";
 import { handleAnswer, resumeAssessment, sendQuestion } from "@/lib/assessment/handlers/assessment";
 import { optOutFollowup, updateFollowup, createFollowup, getFollowup } from "@/lib/assessment/followup";
+import { getAssessmentHistory } from "@/lib/assessment/store";
+import { buildProgressFlex } from "@/lib/assessment/flex/progress";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -139,12 +141,30 @@ async function handlePostbackEvent(event: PostbackEvent, lineUserId: string): Pr
       await sendQuestion(lineClient, null, lineUserId, 0);
       break;
 
-    case "view_previous":
-      await lineClient.replyMessage({
-        replyToken,
-        messages: [{ type: "text", text: "ฟีเจอร์ดูผลเดิมกำลังพัฒนา 🔧\nพิมพ์ \"ประเมิน\" เพื่อทำใหม่ได้เลย" }],
-      });
+    case "view_previous": {
+      const studentHash = session.studentIdHash;
+      if (!studentHash) {
+        await lineClient.replyMessage({
+          replyToken,
+          messages: [{ type: "text", text: "ไม่พบข้อมูล กรุณาพิมพ์ \"ประเมิน\" แล้วใส่รหัสนักศึกษาใหม่อีกครั้งนะ 😊" }],
+        });
+        break;
+      }
+      const [history, followupRecord] = await Promise.all([
+        getAssessmentHistory(studentHash),
+        getFollowup(lineUserId).catch(() => null),
+      ]);
+      if (history.length === 0) {
+        await lineClient.replyMessage({
+          replyToken,
+          messages: [{ type: "text", text: "ยังไม่มีประวัติการประเมิน — พิมพ์ \"ประเมิน\" เพื่อเริ่มได้เลย 🌾" }],
+        });
+        break;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await lineClient.replyMessage({ replyToken, messages: [buildProgressFlex(history, followupRecord) as any] });
       break;
+    }
 
     case "export_pdf":
       await lineClient.replyMessage({

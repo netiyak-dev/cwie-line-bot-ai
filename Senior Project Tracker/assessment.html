@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แบบประเมินความพร้อม — Senior Project Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#A8D8C9; --secondary:#FFD9B3; --alert:#FFB3A7; --success:#B8E0D2;
+    --bg:#FAFAF8; --text:#3A3A3A; --text-soft:#7A7A75; --card-radius:18px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Thai','Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+  .app{max-width:480px;margin:0 auto;padding:20px 16px 100px;}
+
+  .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .lang-toggle{border:none;background:#fff;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.05);}
+
+  .intro h1{font-size:19px;margin:10px 0 6px;font-weight:700;}
+  .intro p{font-size:13px;color:var(--text-soft);line-height:1.6;margin:0 0 18px;}
+
+  /* progress */
+  .progress-track{display:flex;gap:6px;margin-bottom:22px;}
+  .progress-seg{flex:1;height:6px;border-radius:4px;background:#EDEDE9;}
+  .progress-seg.done{background:var(--primary);}
+
+  .section-card{background:#fff;border-radius:var(--card-radius);padding:18px 16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+  .section-eyebrow{font-size:11px;font-weight:700;color:#3f8f76;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+  .section-card h2{font-size:16px;margin:0 0 14px;font-weight:700;}
+
+  .q{margin-bottom:18px;}
+  .q label.qtext{font-size:14px;font-weight:600;display:block;margin-bottom:8px;}
+
+  /* likert scale */
+  .likert{display:flex;justify-content:space-between;gap:6px;}
+  .likert input{display:none;}
+  .likert .opt{
+    flex:1;text-align:center;padding:10px 4px;border-radius:12px;background:#F4F4F1;
+    font-size:12px;color:var(--text-soft);cursor:pointer;border:2px solid transparent;
+  }
+  .likert input:checked + .opt{background:var(--primary);color:#1f5b48;border-color:#7fc4ad;font-weight:700;}
+
+  /* chips multi-select */
+  .chip-group{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip-group input{display:none;}
+  .chip{
+    padding:8px 14px;border-radius:20px;background:#F4F4F1;font-size:13px;color:var(--text-soft);
+    cursor:pointer;border:2px solid transparent;
+  }
+  .chip-group input:checked + .chip{background:var(--secondary);color:#8a5a2b;border-color:#f0b975;font-weight:700;}
+
+  /* textarea */
+  textarea{
+    width:100%;border:1px solid #E5E5E0;border-radius:12px;padding:10px 12px;font-size:13px;
+    font-family:inherit;resize:vertical;min-height:70px;
+  }
+
+  .submit-bar{
+    position:fixed;bottom:0;left:0;right:0;background:#fff;padding:14px 16px;box-shadow:0 -2px 10px rgba(0,0,0,0.05);
+  }
+  .submit-btn{
+    width:100%;max-width:448px;display:block;margin:0 auto;background:#3f8f76;color:#fff;border:none;
+    border-radius:14px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;
+  }
+  .submit-btn:disabled{background:#C9C9C4;cursor:not-allowed;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div></div>
+    <button class="lang-toggle" id="langToggle">EN</button>
+  </div>
+
+  <div class="intro">
+    <h1 data-th="แบบประเมินความพร้อมก่อนเริ่มโครงงาน" data-en="Project Readiness Assessment">แบบประเมินความพร้อมก่อนเริ่มโครงงาน</h1>
+    <p data-th="ใช้เวลาประมาณ 5 นาที — คำตอบนี้จะช่วยแนะนำหัวข้องานและอาจารย์ที่ปรึกษาที่เหมาะกับคุณ"
+       data-en="Takes about 5 minutes — your answers help us recommend a project topic and advisor that fit you.">
+       ใช้เวลาประมาณ 5 นาที — คำตอบนี้จะช่วยแนะนำหัวข้องานและอาจารย์ที่ปรึกษาที่เหมาะกับคุณ</p>
+  </div>
+
+  <div class="progress-track">
+    <div class="progress-seg done"></div>
+    <div class="progress-seg done"></div>
+    <div class="progress-seg done"></div>
+  </div>
+
+  <!-- Section 1: ความรู้/ทักษะพื้นฐาน -->
+  <div class="section-card">
+    <div class="section-eyebrow" data-th="ส่วนที่ 1" data-en="Section 1">ส่วนที่ 1</div>
+    <h2 data-th="ความรู้และทักษะพื้นฐาน" data-en="Knowledge & Skills">ความรู้และทักษะพื้นฐาน</h2>
+
+    <div class="q">
+      <label class="qtext" data-th="คุณมีพื้นฐานการทำ Lab/ปฏิบัติการมากแค่ไหน" data-en="How much hands-on lab experience do you have?">คุณมีพื้นฐานการทำ Lab/ปฏิบัติการมากแค่ไหน</label>
+      <div class="likert" data-name="lab_skill">
+        <input type="radio" name="lab_skill" id="ls1" value="1"><label class="opt" for="ls1" data-th="น้อยมาก" data-en="Very little">น้อยมาก</label>
+        <input type="radio" name="lab_skill" id="ls2" value="2"><label class="opt" for="ls2" data-th="น้อย" data-en="A little">น้อย</label>
+        <input type="radio" name="lab_skill" id="ls3" value="3"><label class="opt" for="ls3" data-th="กลาง" data-en="Average">กลาง</label>
+        <input type="radio" name="lab_skill" id="ls4" value="4"><label class="opt" for="ls4" data-th="ดี" data-en="Good">ดี</label>
+        <input type="radio" name="lab_skill" id="ls5" value="5"><label class="opt" for="ls5" data-th="ดีมาก" data-en="Excellent">ดีมาก</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <label class="qtext" data-th="ความมั่นใจในการเขียนรายงาน/วิชาการ" data-en="Confidence in academic writing">ความมั่นใจในการเขียนรายงาน/วิชาการ</label>
+      <div class="likert" data-name="writing_skill">
+        <input type="radio" name="writing_skill" id="ws1" value="1"><label class="opt" for="ws1" data-th="น้อยมาก" data-en="Very little">น้อยมาก</label>
+        <input type="radio" name="writing_skill" id="ws2" value="2"><label class="opt" for="ws2" data-th="น้อย" data-en="A little">น้อย</label>
+        <input type="radio" name="writing_skill" id="ws3" value="3"><label class="opt" for="ws3" data-th="กลาง" data-en="Average">กลาง</label>
+        <input type="radio" name="writing_skill" id="ws4" value="4"><label class="opt" for="ws4" data-th="ดี" data-en="Good">ดี</label>
+        <input type="radio" name="writing_skill" id="ws5" value="5"><label class="opt" for="ws5" data-th="ดีมาก" data-en="Excellent">ดีมาก</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: ความสนใจหัวข้อ -->
+  <div class="section-card">
+    <div class="section-eyebrow" data-th="ส่วนที่ 2" data-en="Section 2">ส่วนที่ 2</div>
+    <h2 data-th="ความสนใจในหัวข้อวิจัย" data-en="Research Interests">ความสนใจในหัวข้อวิจัย</h2>
+
+    <div class="q">
+      <label class="qtext" data-th="เลือกหัวข้อที่คุณสนใจ (เลือกได้หลายข้อ)" data-en="Pick topics you're interested in (multi-select)">เลือกหัวข้อที่คุณสนใจ (เลือกได้หลายข้อ)</label>
+      <div class="chip-group" id="interestChips">
+        <input type="checkbox" id="t1" value="tissue_culture"><label class="chip" for="t1" data-th="เพาะเลี้ยงเนื้อเยื่อ" data-en="Tissue Culture">เพาะเลี้ยงเนื้อเยื่อ</label>
+        <input type="checkbox" id="t2" value="plant_genetics"><label class="chip" for="t2" data-th="พันธุศาสตร์พืช" data-en="Plant Genetics">พันธุศาสตร์พืช</label>
+        <input type="checkbox" id="t3" value="microbiology"><label class="chip" for="t3" data-th="จุลชีววิทยา" data-en="Microbiology">จุลชีววิทยา</label>
+        <input type="checkbox" id="t4" value="data_software"><label class="chip" for="t4" data-th="ซอฟต์แวร์/ข้อมูล" data-en="Software & Data">ซอฟต์แวร์/ข้อมูล</label>
+        <input type="checkbox" id="t5" value="food_science"><label class="chip" for="t5" data-th="วิทยาศาสตร์การอาหาร" data-en="Food Science">วิทยาศาสตร์การอาหาร</label>
+        <input type="checkbox" id="t6" value="environment"><label class="chip" for="t6" data-th="สิ่งแวดล้อม" data-en="Environment">สิ่งแวดล้อม</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <label class="qtext" data-th="อยากบอกอะไรเพิ่มเติมเกี่ยวกับความสนใจของคุณไหม (ไม่บังคับ)" data-en="Anything else about your interests? (optional)">อยากบอกอะไรเพิ่มเติมเกี่ยวกับความสนใจของคุณไหม (ไม่บังคับ)</label>
+      <textarea id="interestNote" placeholder="เช่น อยากทำงานที่เกี่ยวกับกล้วยไม้ หรืออยากลองงานที่ใช้ AI ช่วยวิเคราะห์ข้อมูล"></textarea>
+    </div>
+  </div>
+
+  <!-- Section 3: วินัย/การจัดการเวลา -->
+  <div class="section-card">
+    <div class="section-eyebrow" data-th="ส่วนที่ 3" data-en="Section 3">ส่วนที่ 3</div>
+    <h2 data-th="วินัยและการจัดการเวลา" data-en="Discipline & Time Management">วินัยและการจัดการเวลา</h2>
+
+    <div class="q">
+      <label class="qtext" data-th="คุณมักทำงานเสร็จตรงตามกำหนดแค่ไหน" data-en="How often do you finish tasks on time?">คุณมักทำงานเสร็จตรงตามกำหนดแค่ไหน</label>
+      <div class="likert" data-name="time_management">
+        <input type="radio" name="time_management" id="tm1" value="1"><label class="opt" for="tm1" data-th="น้อยมาก" data-en="Rarely">น้อยมาก</label>
+        <input type="radio" name="time_management" id="tm2" value="2"><label class="opt" for="tm2" data-th="น้อย" data-en="Sometimes">น้อย</label>
+        <input type="radio" name="time_management" id="tm3" value="3"><label class="opt" for="tm3" data-th="กลาง" data-en="Average">กลาง</label>
+        <input type="radio" name="time_management" id="tm4" value="4"><label class="opt" for="tm4" data-th="ดี" data-en="Often">ดี</label>
+        <input type="radio" name="time_management" id="tm5" value="5"><label class="opt" for="tm5" data-th="ดีมาก" data-en="Almost always">ดีมาก</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <label class="qtext" data-th="คุณมีเวลาทำโครงงานต่อสัปดาห์ประมาณกี่ชั่วโมง" data-en="How many hours per week can you dedicate to this project?">คุณมีเวลาทำโครงงานต่อสัปดาห์ประมาณกี่ชั่วโมง</label>
+      <div class="likert" data-name="hours_per_week">
+        <input type="radio" name="hours_per_week" id="hw1" value="1"><label class="opt" for="hw1" data-th="<3 ชม." data-en="<3 hrs">&lt;3 ชม.</label>
+        <input type="radio" name="hours_per_week" id="hw2" value="2"><label class="opt" for="hw2" data-th="3-6 ชม." data-en="3-6 hrs">3-6 ชม.</label>
+        <input type="radio" name="hours_per_week" id="hw3" value="3"><label class="opt" for="hw3" data-th="6-10 ชม." data-en="6-10 hrs">6-10 ชม.</label>
+        <input type="radio" name="hours_per_week" id="hw4" value="4"><label class="opt" for="hw4" data-th="10+ ชม." data-en="10+ hrs">10+ ชม.</label>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="submit-bar">
+  <button class="submit-btn" id="submitBtn" data-th="ส่งแบบประเมิน" data-en="Submit assessment">ส่งแบบประเมิน</button>
+</div>
+
+<script>
+  let currentLang = 'th';
+  document.getElementById('langToggle').addEventListener('click', () => {
+    currentLang = currentLang === 'th' ? 'en' : 'th';
+    document.getElementById('langToggle').textContent = currentLang === 'th' ? 'EN' : 'TH';
+    document.querySelectorAll('[data-th]').forEach(el => {
+      el.textContent = el.getAttribute('data-' + currentLang);
+    });
+  });
+
+  document.getElementById('submitBtn').addEventListener('click', () => {
+    const answers = {
+      lab_skill: document.querySelector('input[name="lab_skill"]:checked')?.value,
+      writing_skill: document.querySelector('input[name="writing_skill"]:checked')?.value,
+      interests: Array.from(document.querySelectorAll('#interestChips input:checked')).map(i => i.value),
+      interest_note: document.getElementById('interestNote').value,
+      time_management: document.querySelector('input[name="time_management"]:checked')?.value,
+      hours_per_week: document.querySelector('input[name="hours_per_week"]:checked')?.value,
+    };
+
+    // TODO: validate ว่าตอบครบทุกข้อก่อน submit จริง
+    // TODO: ดึง line_user_id จาก LIFF SDK แล้วส่ง answers ไปยัง Apps Script Web App
+    //   ผ่าน POST action=submitAssessment → ดู apps-script-backend/Code.gs
+    // จากนั้น redirect ไปหน้า recommendation.html เพื่อแสดงผลแนะนำจาก AI
+    console.log('answers', answers);
+    window.location.href = 'recommendation.html';
+  });
+</script>
+</body>
+</html>
