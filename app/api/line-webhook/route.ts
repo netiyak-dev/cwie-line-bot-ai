@@ -33,7 +33,7 @@ import { getSession, upsertSession, defaultSession } from "@/lib/assessment/sess
 import { sendPdpaCard, handleAccept, handleDecline } from "@/lib/assessment/handlers/pdpa";
 import { handleStudentId } from "@/lib/assessment/handlers/id";
 import { handleAnswer, resumeAssessment, sendQuestion } from "@/lib/assessment/handlers/assessment";
-import { optOutFollowup, updateFollowup } from "@/lib/assessment/followup";
+import { optOutFollowup, updateFollowup, createFollowup, getFollowup } from "@/lib/assessment/followup";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -103,7 +103,7 @@ async function handleFollowEvent(event: FollowEvent): Promise<void> {
     messages: [
       {
         type: "text",
-        text: "สวัสดีน้อง 👋 ยินดีต้อนรับสู่ AGSP!\n\nAGSP ช่วยได้ 2 อย่าง:\n🌾 ตอบคำถามเรื่อง KAAG474 Senior Project\n📊 ประเมินทักษะ Hard Skill / Soft Skill\n\nพิมพ์ \"ประเมิน\" เพื่อเริ่มประเมินทักษะ หรือถามเรื่อง Senior Project ได้เลย!",
+        text: "สวัสดีน้อง 👋 ยินดีต้อนรับสู่ AGSP!\nผู้ช่วยนักศึกษา หลักสูตรวิทยาศาสตร์การเกษตร มหาวิทยาลัยมหิดล 🌾\n\nAGSP ช่วยได้ 2 อย่าง:\n\n📊 ประเมินทักษะ Hard Skill & Soft Skill\n→ พิมพ์: ประเมิน\n\n❓ ตอบคำถามเรื่อง KAAG474 Senior Project\n→ พิมพ์คำถามได้เลย\n\n─────────────────\n💡 คำสั่งที่ใช้ได้:\n• ประเมิน — เริ่มประเมินทักษะ\n• ยกเลิกการแจ้งเตือน — หยุดรับ follow-up\n• ขอลบข้อมูล — ลบข้อมูลของน้องออกจากระบบ",
       },
     ],
   });
@@ -153,13 +153,20 @@ async function handlePostbackEvent(event: PostbackEvent, lineUserId: string): Pr
       });
       break;
 
-    case "followup_optin":
-      await updateFollowup(lineUserId, { optIn: true }).catch(() => {});
+    case "followup_optin": {
+      // สร้าง record ใหม่ถ้ายังไม่มี (เก็บ LINE ID เฉพาะตอนที่น้องยินยอมชัดแจ้ง)
+      const existing = await getFollowup(lineUserId).catch(() => null);
+      if (existing) {
+        await updateFollowup(lineUserId, { optIn: true }).catch(() => {});
+      } else {
+        await createFollowup(lineUserId).catch(() => {});
+      }
       await lineClient.replyMessage({
         replyToken,
         messages: [{ type: "text", text: "🔔 AGSP จะแจ้งเตือนน้องที่ 2 สัปดาห์ / 1 เดือน / 3 เดือนนะ\nพิมพ์ \"ยกเลิกการแจ้งเตือน\" เมื่อไรก็ได้" }],
       });
       break;
+    }
 
     case "followup_done":
       await lineClient.replyMessage({

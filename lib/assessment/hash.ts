@@ -19,8 +19,8 @@ export function hashStudentId(studentId: string): string {
 }
 
 /**
- * validate รูปแบบรหัสนักศึกษา: ตัวเลข 8 หลัก
+ * validate รูปแบบรหัสนักศึกษา: ตัวเลข 7 หลัก
  */
 export function isValidStudentId(input: string): boolean {
-  return /^\d{8}$/.test(input.trim());
+  return /^\d{7}$/.test(input.trim());
 }
