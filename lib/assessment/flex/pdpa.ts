@@ -46,13 +46,50 @@ export function buildPdpaFlex(): FlexMessage {
           },
           {
             type: 'text',
-            text: 'ระบบจะเก็บข้อมูลต่อไปนี้เพื่อวิเคราะห์ทักษะของน้อง:',
+            text: 'AGSP จะเก็บข้อมูลเพื่อ 2 วัตถุประสงค์:',
             size: 'sm',
             color: '#555555',
             wrap: true,
           },
           {
+            type: 'box',
+            layout: 'vertical',
+            spacing: 'sm',
+            contents: [
+              {
+                type: 'box',
+                layout: 'horizontal',
+                contents: [
+                  { type: 'text', text: '📊', flex: 0, size: 'sm' },
+                  {
+                    type: 'text',
+                    text: 'ติดตามพัฒนาการทักษะของน้องรายบุคคล เพื่อให้คำแนะนำที่ตรงจุดขึ้นเรื่อยๆ',
+                    size: 'sm', wrap: true, flex: 10,
+                  },
+                ],
+              },
+              {
+                type: 'box',
+                layout: 'horizontal',
+                contents: [
+                  { type: 'text', text: '🎓', flex: 0, size: 'sm' },
+                  {
+                    type: 'text',
+                    text: 'วิเคราะห์ภาพรวมเพื่อพัฒนาหลักสูตรวิทยาศาสตร์การเกษตร',
+                    size: 'sm', wrap: true, flex: 10,
+                  },
+                ],
+              },
+            ],
+          },
+          {
             type: 'separator',
+          },
+          {
+            type: 'text',
+            text: 'ข้อมูลที่เก็บ',
+            weight: 'bold',
+            size: 'sm',
           },
           {
             type: 'box',
@@ -66,7 +103,7 @@ export function buildPdpaFlex(): FlexMessage {
                   { type: 'text', text: '✅', flex: 0, size: 'sm' },
                   {
                     type: 'text',
-                    text: 'รหัสนักศึกษา (เก็บในรูปแบบเข้ารหัส)',
+                    text: 'รหัสนักศึกษา (เข้ารหัสก่อนเก็บ ไม่สามารถถอดรหัสกลับได้)',
                     size: 'sm', wrap: true, flex: 10,
                   },
                 ],
@@ -78,7 +115,7 @@ export function buildPdpaFlex(): FlexMessage {
                   { type: 'text', text: '✅', flex: 0, size: 'sm' },
                   {
                     type: 'text',
-                    text: 'คำตอบแบบประเมิน 23 ข้อ',
+                    text: 'ผลประเมินทักษะ (เก็บรายบุคคล เพื่อติดตามพัฒนาการ)',
                     size: 'sm', wrap: true, flex: 10,
                   },
                 ],
@@ -90,7 +127,7 @@ export function buildPdpaFlex(): FlexMessage {
                   { type: 'text', text: '❌', flex: 0, size: 'sm' },
                   {
                     type: 'text',
-                    text: 'ไม่เก็บชื่อ เบอร์โทร LINE ID หรือข้อมูลส่วนตัวอื่น',
+                    text: 'ไม่เก็บชื่อ เบอร์โทร หรือ LINE ID (LINE ID เก็บเฉพาะถ้าน้องเลือกรับแจ้งเตือน)',
                     size: 'sm', wrap: true, flex: 10, color: '#888888',
                   },
                 ],
@@ -102,7 +139,7 @@ export function buildPdpaFlex(): FlexMessage {
           },
           {
             type: 'text',
-            text: 'ข้อมูลจะใช้เพื่อการวิเคราะห์และพัฒนาหลักสูตรเท่านั้น ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล (PDPA) พ.ศ. 2562',
+            text: 'สิทธิ์ของน้อง: ขอดูหรือลบข้อมูลได้ทุกเมื่อ โดยพิมพ์ "ขอลบข้อมูล" ใน AGSP | เก็บข้อมูลตาม PDPA พ.ศ. 2562',
             size: 'xs',
             color: '#888888',
             wrap: true,
