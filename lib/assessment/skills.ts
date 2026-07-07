@@ -25,8 +25,8 @@ export const SKILLS: Record<string, Skill> = {
     plo: 'PLO1.3, PLO3',
     emoji: '🌱',
     recommendations: {
-      1: 'ขอเข้าร่วมโครงการ Farm Training หรือฝึกงานฟาร์มในสมัยปิดเทอม + ทำ Field Lab เพิ่มเติมกับอาจารย์ที่ปรึกษา (สอดคล้อง PLO3: ทักษะปฏิบัติการเกษตร)',
-      2: 'เข้าร่วม Workshop การวินิจฉัยโรคพืช/สัตว์ขั้นสูง และลองเป็น TA ใน Lab ภาคสนามเพื่อสั่งสมประสบการณ์ (PLO3.2)',
+      1: 'ลองขอฝึกงานที่ฟาร์มหรือโครงการเกษตรในช่วงปิดเทอม และขอทำ Field Lab เพิ่มกับอาจารย์ที่ปรึกษา จะได้จับงานจริงมากขึ้น (PLO3)',
+      2: 'เข้า workshop ดูแลพืช/สัตว์ขั้นสูง หรือลองช่วย TA ใน lab ภาคสนาม จะได้ฝึกทักษะและสอนคนอื่นไปด้วย (PLO3.2)',
     },
   },
   HS2: {
@@ -35,8 +35,8 @@ export const SKILLS: Record<string, Skill> = {
     plo: 'PLO3.1, PLO3.2',
     emoji: '🔬',
     recommendations: {
-      1: 'ฝึก Lab Safety Certification ของภาควิชา + ทำ Lab Manual exercises ซ้ำกับอุปกรณ์ที่ยังไม่คุ้นเคย (PLO3.1: ปฏิบัติการปลอดภัย)',
-      2: 'ออกแบบ mini-experiment ของตัวเองพร้อม GLP documentation + ขอ feedback จากอาจารย์ก่อน run จริง (PLO3.2: มาตรฐาน GLP)',
+      1: 'ทบทวนกฎความปลอดภัยใน lab และลองฝึกใช้อุปกรณ์ที่ยังไม่คุ้นด้วยตัวเอง เปิด lab manual แล้วทำซ้ำทีละขั้นตอน (PLO3.1)',
+      2: 'ลองออกแบบการทดลองเล็กๆ ของตัวเอง แล้วให้อาจารย์ช่วย feedback ก่อนทำจริง จะช่วยให้เข้าใจขั้นตอนวิทยาศาสตร์ดีขึ้น (PLO3.2)',
     },
   },
   HS3: {
@@ -45,8 +45,8 @@ export const SKILLS: Record<string, Skill> = {
     plo: 'PLO2.1, PLO2.3, PLO2.4',
     emoji: '📊',
     recommendations: {
-      1: 'ฝึก Systematic Review ด้วย PRISMA flow + เรียน SPSS/R พื้นฐานผ่าน Coursera (สอดคล้อง PLO2.1: ออกแบบวิจัย)',
-      2: 'ทำ Meta-analysis เล็กๆ ในหัวข้อที่สนใจ + เรียน Advanced Statistics (PLO2.3-2.4: วิเคราะห์และรายงานผล)',
+      1: 'ฝึกค้นงานวิจัยใน Google Scholar และอ่านบทคัดย่อทุกวัน + เริ่มเรียน Excel หรือ SPSS เบื้องต้นเพื่อวิเคราะห์ข้อมูลได้ (PLO2.1)',
+      2: 'ลองทำ mini-research เล็กๆ ในหัวข้อที่สนใจ เช่น เก็บข้อมูลในแปลง แล้วนำเสนอผลกับเพื่อนหรืออาจารย์ (PLO2.3–2.4)',
     },
   },
   HS4: {
@@ -55,8 +55,8 @@ export const SKILLS: Record<string, Skill> = {
     plo: 'PLO6',
     emoji: '🤖',
     recommendations: {
-      1: 'เริ่มจาก AI Literacy Course ฟรีบน Google / Microsoft Learn + ทดลองใช้ AI Tools ใน workflow นักศึกษา 1 เดือน (PLO6: ดิจิทัลและนวัตกรรม)',
-      2: 'เรียน Prompt Engineering สำหรับงานวิจัย + ศึกษา Responsible AI Framework และลองประเมิน AI output ในหัวข้อเกษตร (PLO6.2)',
+      1: 'ลองใช้ AI tools เช่น ChatGPT หรือ Gemini ช่วยสรุปบทความวิชาการ แล้วตรวจสอบว่าข้อมูลถูกต้องไหม ฝึก critical thinking ไปด้วย (PLO6)',
+      2: 'ศึกษาว่า AI ทำงานอย่างไร และมีข้อจำกัดอะไรบ้าง โดยเฉพาะในงานเกษตร ลองเปรียบเทียบผล AI กับข้อมูลจริงในแปลง (PLO6.2)',
     },
   },
   HS5: {
@@ -65,8 +65,8 @@ export const SKILLS: Record<string, Skill> = {
     plo: 'PLO1.1, PLO1.3',
     emoji: '📚',
     recommendations: {
-      1: 'ทบทวน Core Textbooks (Plant Physiology, Soil Science) + จด Concept Map เชื่อมโยงความรู้ข้ามวิชา (PLO1.1: ความรู้ด้านวิทยาศาสตร์)',
-      2: 'อ่าน Review Articles ใน Journal of Agricultural Science + เข้า Seminar ของภาควิชาสม่ำเสมอ (PLO1.3)',
+      1: 'ทบทวนตำราหลักของวิชาที่เรียน เช่น Plant Physiology หรือ Soil Science แล้วลองวาด mind map เชื่อมความรู้ข้ามวิชา (PLO1.1)',
+      2: 'อ่านบทความวิชาการสั้นๆ สัปดาห์ละ 1 ชิ้น และเข้าฟัง seminar ของภาควิชาให้สม่ำเสมอ (PLO1.3)',
     },
   },
   SS1: {
@@ -75,8 +75,8 @@ export const SKILLS: Record<string, Skill> = {
     plo: 'PLO1',
     emoji: '🧠',
     recommendations: {
-      1: 'ฝึก Case-based Problem Solving ผ่านกรณีศึกษาเกษตร + เรียน Design Thinking พื้นฐาน (สอดคล้อง PLO1: การคิดวิเคราะห์)',
-      2: 'เข้าร่วม Hackathon เกษตรหรือ Challenge จากภายนอก เพื่อฝึกแก้ปัญหาจริงภายใต้เวลา (PLO1.2)',
+      1: 'ฝึกตั้งคำถามกับสิ่งที่เรียนหรือสิ่งที่เห็นในชีวิตประจำวัน เช่น "ทำไมพืชในแปลงนี้ถึงโตช้า?" แล้วหาคำตอบด้วยตัวเอง (PLO1)',
+      2: 'เข้าร่วม hackathon หรือ competition เกษตร เพื่อฝึกแก้ปัญหาจริงภายในเวลาจำกัดกับทีม (PLO1.2)',
     },
   },
   SS2: {
@@ -85,8 +85,8 @@ export const SKILLS: Record<string, Skill> = {
     plo: 'PLO2',
     emoji: '📋',
     recommendations: {
-      1: 'เรียน Project Management พื้นฐาน (PMBOK/Agile) + ฝึกใช้ Trello หรือ Notion วางแผนงานประจำสัปดาห์ (PLO2: บริหารจัดการ)',
-      2: 'รับผิดชอบ Lead งานกลุ่มโครงการใหญ่ 1 ครั้ง + ทำ Lessons Learned หลังจบโครงการ (PLO2.2)',
+      1: 'เริ่มจากการวางแผนงานตัวเองก่อน เช่น ใช้ Notion หรือ Google Calendar จดตารางงานรายสัปดาห์ และติดตามว่าทำได้ตามแผนไหม (PLO2)',
+      2: 'ลองรับบทหัวหน้าในงานกลุ่มสักครั้ง แล้วสรุปบทเรียนหลังจบงานว่าอะไรดี อะไรปรับได้ (PLO2.2)',
     },
   },
   SS3: {
@@ -95,8 +95,8 @@ export const SKILLS: Record<string, Skill> = {
     plo: 'PLO4',
     emoji: '🎤',
     recommendations: {
-      1: 'เข้า Public Speaking Club หรือ Toastmasters + ฝึกนำเสนองาน 3 นาทีต่อสัปดาห์กับเพื่อน (PLO4: การสื่อสาร)',
-      2: 'ส่งบทความสั้นไปยัง Journal นักศึกษาหรือ Blog วิชาการ + ฝึก Science Communication สำหรับสาธารณะ (PLO4.2)',
+      1: 'ฝึกอธิบายสิ่งที่เรียนให้เพื่อนฟัง 3 นาทีต่อสัปดาห์ ไม่ต้องสมบูรณ์แบบ แค่ฝึกพูดให้ชัดและคนฟังเข้าใจ (PLO4)',
+      2: 'ลองเขียนสรุปงานวิชาการสั้นๆ เป็นภาษาที่คนทั่วไปอ่านเข้าใจ เช่น โพสต์ใน Facebook หรือ blog ส่วนตัว (PLO4.2)',
     },
   },
   SS4: {
@@ -105,18 +105,18 @@ export const SKILLS: Record<string, Skill> = {
     plo: 'PLO5',
     emoji: '🤝',
     recommendations: {
-      1: 'เข้าร่วม Interdisciplinary Team Project + ศึกษา Cross-cultural Communication พื้นฐาน (PLO5: ความร่วมมือ)',
-      2: 'รับบท Facilitator ในการประชุมทีม + เข้าร่วม International Exchange Program หรือ Virtual Collaboration (PLO5.2)',
+      1: 'เข้าร่วมกิจกรรมหรือโปรเจกต์ที่ทำงานกับคนต่างคณะหรือต่างพื้นเพ เพื่อฝึกการสื่อสารและปรับตัวในทีมที่หลากหลาย (PLO5)',
+      2: 'ลองเป็นคนดำเนินการประชุมกลุ่ม เช่น จด agenda และสรุปมติ จะช่วยฝึกทักษะ facilitate ทีม (PLO5.2)',
     },
   },
   SS5: {
     id: 'SS5', type: 'soft',
-    name: 'จริยธรรมและ Responsible AI',
+    name: 'จริยธรรมและความซื่อสัตย์',
     plo: 'PLO1.2, PLO2.2, PLO6.2',
     emoji: '⚖️',
     recommendations: {
-      1: 'เรียน Research Ethics หลักสูตรออนไลน์ (CITI Program) + ศึกษา APA/Vancouver Citation อย่างจริงจัง (PLO1.2: จริยธรรมวิชาการ)',
-      2: 'ศึกษา UNESCO Recommendation on the Ethics of AI + ฝึกประเมิน AI-generated content ในงานเกษตรอย่างมีวิจารณญาณ (PLO6.2)',
+      1: 'ทบทวนหลักการอ้างอิงที่ถูกต้อง เช่น APA style และฝึกตรวจสอบข้อมูลก่อนนำไปใช้ว่ามาจากแหล่งน่าเชื่อถือไหม (PLO1.2)',
+      2: 'เมื่อใช้ AI ช่วยงานวิชาการ ฝึกตรวจสอบความถูกต้องทุกครั้งและแจ้งให้อาจารย์ทราบ ไม่ใช้แทนการคิดเอง (PLO6.2)',
     },
   },
   SS6: {
@@ -125,8 +125,8 @@ export const SKILLS: Record<string, Skill> = {
     plo: 'PLO6.1',
     emoji: '🚀',
     recommendations: {
-      1: 'สร้าง Personal Development Plan (PDP) ด้วย SMART Goals + ทำ Weekly Reflection Journal (PLO6.1: การพัฒนาตนเอง)',
-      2: 'เรียน MOOCs ด้านที่สนใจ 1 คอร์สต่อเดือน + หา Mentor ในสายงานที่อยากพัฒนา (PLO6.1)',
+      1: 'ลองตั้งเป้าหมายส่วนตัวที่ชัดเจนสัก 1 ข้อ เช่น "อ่านบทความวิชาการ 1 ชิ้น/สัปดาห์" แล้วติดตามว่าทำได้ไหม (PLO6.1)',
+      2: 'หาคอร์สออนไลน์ฟรีในหัวข้อที่อยากพัฒนา เช่น Coursera หรือ YouTube และตั้งเวลาเรียนให้ชัดเจนทุกสัปดาห์ (PLO6.1)',
     },
   },
 };
