@@ -47,6 +47,9 @@ const GEMINI_TIMEOUT_MS = 8000;
 /** คำที่เริ่ม assessment flow */
 const ASSESSMENT_KEYWORDS = ["ประเมิน", "assessment", "skill", "ทักษะ", "เริ่ม", "start", "สวัสดี", "hello", "hi"];
 
+/** คำที่แสดง Progress */
+const PROGRESS_KEYWORDS = ["progress", "ความก้าวหน้า", "ผล", "คะแนน", "ดูผล"];
+
 type TextMessageEvent = MessageEvent & { message: TextEventMessage };
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
@@ -297,9 +300,31 @@ async function handleTextEvent(event: TextMessageEvent, lineUserId: string): Pro
       await lineClient.replyMessage({ replyToken, messages: [{ type: "text", text: "กรุณากดปุ่ม \"ยินยอม\" หรือ \"ไม่ยินยอม\" บนการ์ดด้านบนนะ 😊" }] });
       return;
 
-    case "returning":
-      await lineClient.replyMessage({ replyToken, messages: [{ type: "text", text: "กรุณาเลือกจากปุ่มด้านบนนะ — ทำใหม่หรือดูผลเดิม 😊" }] });
+    case "returning": {
+      // ถ้าพิมพ์ "progress" หรือคำที่เกี่ยวข้อง → แสดง Progress card ทันที
+      if (PROGRESS_KEYWORDS.some((k) => lower.includes(k))) {
+        const studentHash = session.studentIdHash;
+        if (studentHash) {
+          const [history, followupRecord] = await Promise.all([
+            getAssessmentHistory(studentHash),
+            getFollowup(lineUserId).catch(() => null),
+          ]);
+          if (history.length > 0) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            await lineClient.replyMessage({ replyToken, messages: [buildProgressFlex(history, followupRecord) as any] });
+            return;
+          }
+        }
+      }
+      // ข้อความอื่นๆ → reset กลับ idle แล้ว route ปกติ (ไม่ให้ติด loop)
+      await upsertSession({ ...session, lineUserId, state: "idle" });
+      if (ASSESSMENT_KEYWORDS.some((k) => lower.includes(k))) {
+        await sendPdpaCard(lineClient, replyToken, lineUserId, { ...session, state: "idle" });
+      } else {
+        await handleFaqMessage(replyToken, text);
+      }
       return;
+    }
 
     default: {
       // Assessment keywords
